@@ -5,12 +5,14 @@ import { useAddBookMutation } from './bookApi';
 
 
 
-interface IBook {
+export interface IBook {
     title: string;
     author: string;
     genre: string;
     publicationDate: string;
   }
+
+
 
 
 // Create the book slice
@@ -26,3 +28,4 @@ const bookSlice = createSlice({
   
   export const { bookAdded } = bookSlice.actions;
   export default bookSlice.reducer;
+

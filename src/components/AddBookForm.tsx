@@ -2,17 +2,10 @@ import React, { useState } from 'react';
 import { Box, Button, FormControl, FormLabel, Input, Stack, Textarea, useToast } from '@chakra-ui/react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-interface Book {
-  title: string;
-  author: string;
-  genre: string;
-  publicationDate: string;
-  description: string;
-}
-
-interface AddBookFormProps {
-  onAddBook: (book: Book) => void;
-}
+import { useDispatch } from 'react-redux';
+import { useAddBookMutation } from '../Slice/bookApi';
+import {IBook, bookAdded} from '../Slice/bookSlice';
+import { MutationActionCreatorResult } from '@reduxjs/toolkit/dist/query/core/buildInitiate';
 
 const AddBookForm: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -22,37 +15,54 @@ const AddBookForm: React.FC = () => {
   const [description, setDescription] = useState('');
   const toast = useToast();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
+  const dispatch = useDispatch();
+  const [addBookMutation] = useAddBookMutation();
+
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Perform form validation here
 
     // Create the book object
-    const newBook: Book = {
+    const newBook: IBook = {
       title,
       author,
       genre,
-      publicationDate: publicationDate?.toString() || '',
-      description,
+      publicationDate: publicationDate?.toISOString().substring(0, 10) || '',
+   
     };
 
-    // Call the onAddBook function passed from the parent component
-    
+    try{
 
-    // Reset the form
-    setTitle('');
-    setAuthor('');
-    setGenre('');
-    setPublicationDate(null);
-    setDescription('');
+      const response : any= await addBookMutation(newBook);
 
-    // Show success toast
-    toast({
-      title: 'Book added',
-      description: 'The book has been successfully added.',
-      status: 'success',
-      duration: 3000,
-      isClosable: true,
-    });
+      // Access the appropriate field or property in the response
+      const responseData = response.data;
+
+      // Dispatch the action to handle adding a book
+      dispatch(bookAdded(responseData));
+
+      // Handle the success response if needed
+      console.log('New book:', responseData);
+      toast({
+        title: 'Book added',
+        description: 'The book has been successfully added.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+
+      setTitle('');
+      setAuthor('');
+      setGenre('');
+      setPublicationDate(null);
+
+
+    }catch(error: any){
+        throw new Error(error);
+    }
+
   };
 
   return (
@@ -74,10 +84,6 @@ const AddBookForm: React.FC = () => {
           <FormControl id="publicationDate" isRequired>
             <FormLabel>Publication Date</FormLabel>
             <DatePicker selected={publicationDate} onChange={(date: any) => setPublicationDate(date)} />
-          </FormControl>
-          <FormControl id="description">
-            <FormLabel>Description</FormLabel>
-            <Textarea value={description} onChange={(e) => setDescription(e.target.value)} />
           </FormControl>
           <Button type="submit" colorScheme="blue">
             Add Book
