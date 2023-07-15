@@ -23,3 +23,19 @@ export const loginSuccess = (user: User): LoginSuccessAction => ({
 export const logoutSuccess = (): LogoutSuccessAction => ({
   type: LOGOUT_SUCCESS,
 });
+
+
+export const listenToAuthChanges = (): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  Action<string>
+> => (dispatch) => {
+  auth.onAuthStateChanged((user: User | null) => {
+    if (user) {
+      dispatch(loginSuccess(user)); // Dispatch login success action
+    } else {
+      dispatch(logoutSuccess()); // Dispatch logout success action
+    }
+  });
+};

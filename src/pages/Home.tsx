@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { listenToAuthChanges } from '../../Actions/userAction';
+
 import { AppDispatch, RootState } from '../store';
 import { ThunkDispatch } from 'redux-thunk';
 import { User } from '@firebase/auth-types';
+import Navbar from '../components/Navbar';
 const Home = () => {
     
     const user = useSelector((state: RootState) => state.user.user);
@@ -13,7 +14,7 @@ const Home = () => {
   
     return (
       <div>
-        {user ? <p>Welcome, {user.email}</p> : <p>Please log in.</p>}
+        <h1>Home</h1>
       </div>
     );
   };

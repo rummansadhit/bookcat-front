@@ -1,6 +1,11 @@
+import { useDisclosure } from '@chakra-ui/react';
 import React from 'react';
+import LoginForm from './Register';
 
 const Navbar = () => {
+
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
     return (
         <div>
             
@@ -41,12 +46,12 @@ const Navbar = () => {
   </ul>
 </div>
 <div className="navbar-end">
-  <a className="btn">Button</a>
+  <a className="btn" onClick={onOpen}>Login</a>
 </div>
 </div>
 
 
-
+<LoginForm isOpen={isOpen} onClose={onClose} title="Login" />
         </div>
     );
 };
