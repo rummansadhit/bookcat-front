@@ -3,13 +3,25 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import store, { rrfProps } from './store';
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
+import { Provider } from 'react-redux';
+import { ChakraProvider } from '@chakra-ui/react';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <App />
+  <React.StrictMode >
+
+  <Provider store={store}>
+  <ReactReduxFirebaseProvider {...rrfProps}>
+  <ChakraProvider>
+  <App />
+  </ChakraProvider>
+  </ReactReduxFirebaseProvider>
+  </Provider>
+
   </React.StrictMode>
 );
 
