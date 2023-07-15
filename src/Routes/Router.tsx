@@ -8,6 +8,7 @@ import Layout from "../layout/Layout";
 import Home from "../pages/Home";
 
 import ProtectedRoute from "./ProtectedRoute";
+import AddBook from "../pages/AddBook";
 
 
 const router = createBrowserRouter([
@@ -18,6 +19,11 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+        
+      },
+      {
+        path: "/add",
+        element: <AddBook />,
         
       }
 
