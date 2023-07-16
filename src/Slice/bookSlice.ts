@@ -51,6 +51,13 @@ const bookSlice = createSlice({
           state.books[index] = action.payload;
         }},
 
+        bookDeleted: (state, action: PayloadAction<{ bookId: string}>) => {
+            const {bookId} = action.payload;
+            state.books.filter((book) => book.guid !== bookId);
+          },
+      
+
+
 
       addReview: (state, action: PayloadAction<{ bookId: string; review: IReview }>) => {
         const { bookId, review } = action.payload;

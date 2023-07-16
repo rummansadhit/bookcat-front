@@ -22,7 +22,12 @@ export const api = createApi({
       query: () => '/reviews',
     }),
 
-
+    deleteBook: builder.mutation<IBook,  { bookId: string  }>({
+      query: (bookId) => ({
+        url: `/books/${bookId}`,
+        method: 'DELETE',
+      }),
+    }),
     
 
     updateBook: builder.mutation<IBook, { bookId: string ; book: Partial<IBook> }>({
