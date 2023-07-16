@@ -4,7 +4,7 @@ import { IBook, IReview } from './bookSlice';
 // Create the API instance
 export const api = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://bookcat-backend.vercel.app' }),
   endpoints: (builder) => ({
     addBook: builder.mutation({
       query: (book) => ({

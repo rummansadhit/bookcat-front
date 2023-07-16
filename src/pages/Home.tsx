@@ -21,6 +21,7 @@ import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 import { Link } from 'react-router-dom';
 import { useRef } from 'react';
 const Home = () => {
+  const user = useSelector((state: RootState) => state.user.user);
   const cancelRef = useRef<HTMLButtonElement>(null);
     const [deleteBookMutation] = useDeleteBookMutation();
     const dispatch: any = useDispatch();
@@ -132,10 +133,13 @@ const Home = () => {
                             <Divider />
                             
                                 <CardFooter>
+                                  { user?
                                     <ButtonGroup spacing='2'>
                                   <Link to={`/books/edit/${book.guid}`}>  <Button colorScheme="blue">Edit</Button>  </Link> 
                                      <Button colorScheme="red" onClick={() => handleDelete(book)}>Delete</Button>
                                     </ButtonGroup>
+                                    : <div></div>
+                                  }
                                 </CardFooter>
 
 
@@ -147,13 +151,7 @@ const Home = () => {
           ))}
 
 
-
-
-
-        </Grid>
-
-
-        <AlertDialog isOpen={isOpen} onClose={onClose} isCentered leastDestructiveRef={cancelRef} >
+<AlertDialog isOpen={isOpen} onClose={onClose} isCentered leastDestructiveRef={cancelRef} >
                       <AlertDialogOverlay>
                         <AlertDialogContent>
                           <AlertDialogHeader fontSize="lg" fontWeight="bold">
@@ -173,6 +171,12 @@ const Home = () => {
                         </AlertDialogContent>
                       </AlertDialogOverlay>
                     </AlertDialog>
+
+
+        </Grid>
+
+
+
       </Box>
 
           

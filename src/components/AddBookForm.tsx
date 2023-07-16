@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, FormControl, FormLabel, Input, Select, Stack, Textarea, useToast } from '@chakra-ui/react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+
+import DatePicker from 'react-date-picker';
 import { useDispatch } from 'react-redux';
 import { useAddBookMutation } from '../Slice/bookApi';
 import {IBook, bookAdded} from '../Slice/bookSlice';
@@ -104,7 +104,7 @@ const AddBookForm: React.FC = () => {
           </FormControl>
           <FormControl id="publicationDate" isRequired>
             <FormLabel>Publication Date</FormLabel>
-            <DatePicker selected={publicationDate} onChange={(date: any) => setPublicationDate(date)} />
+           <div> <DatePicker value={publicationDate} onChange={(date: any) => setPublicationDate(date)} /> </div> 
           </FormControl>
           <Button type="submit" colorScheme="blue">
             Add Book

@@ -8,6 +8,7 @@ import {
   FormLabel,
   Input,
   Heading,
+  useToast
 } from '@chakra-ui/react';
 
 import { RootState } from '../store';
@@ -16,13 +17,13 @@ import { useUpdateBookMutation } from '../Slice/bookApi';
 
 const EditBookPage = () => {
   const { bookId } = useParams();
- 
+    const toast = useToast();
 
   const dispatch = useDispatch();
   const book: IBook | undefined = useSelector((state: RootState) =>
     state.books.books.find((b) => b.guid === bookId)
   );
-
+ 
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [genre, setGenre] = useState('');
@@ -59,6 +60,14 @@ const EditBookPage = () => {
     dispatch(updateBook(updatedBook));
 
     // Redirect to the book details page or any other appropriate page
+    //show a toast message
+    toast({
+        title: 'Book added',
+        description: 'The book has been successfully added.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
    
   };
 
