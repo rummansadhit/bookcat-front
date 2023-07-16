@@ -220,9 +220,7 @@ const handleLogin = (e: FormEvent<HTMLFormElement>) => {
           </Tabs>
         </ModalBody>
         <ModalFooter>
-          <Button variant="ghost" onClick={onClose}>
-            Cancel
-          </Button>
+
         </ModalFooter>
       </ModalContent>
     </Modal>

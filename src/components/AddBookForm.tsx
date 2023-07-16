@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, FormControl, FormLabel, Input, Stack, Textarea, useToast } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormLabel, Input, Select, Stack, Textarea, useToast } from '@chakra-ui/react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useDispatch } from 'react-redux';
@@ -92,7 +92,15 @@ const AddBookForm: React.FC = () => {
           </FormControl>
           <FormControl id="genre" isRequired>
             <FormLabel>Genre</FormLabel>
-            <Input type="text" value={genre} onChange={(e) => setGenre(e.target.value)} />
+            <Select value={genre} onChange={(e) => setGenre(e.target.value)} required>
+            <option value="">Select Genre</option>
+            <option value="fantasy">Fantasy</option>
+            <option value="romance">Romance</option>
+            <option value="mystery">Mystery</option>
+            <option value="science-fiction">Science Fiction</option>
+            <option value="thriller">Thriller</option>
+            {/* Add more options as needed */}
+          </Select>
           </FormControl>
           <FormControl id="publicationDate" isRequired>
             <FormLabel>Publication Date</FormLabel>
