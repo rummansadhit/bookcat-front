@@ -104,7 +104,7 @@ const Home = () => {
                             
                                 <CardFooter>
                                     <ButtonGroup spacing='2'>
-                                    <Button colorScheme="blue">Edit</Button>
+                                  <Link to={`/books/edit/${book.guid}`}>  <Button colorScheme="blue">Edit</Button>  </Link> 
                                      <Button colorScheme="red">Delete</Button>
                                     </ButtonGroup>
                                 </CardFooter>

@@ -5,20 +5,31 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { useParams } from 'react-router-dom';
 import { useGetBooksQuery } from '../Slice/bookApi';
+import Comments from '../components/Comments';
+import AddReviewForm from '../components/ReviewForm';
 
 const Detailed = () => {
     
-                useGetBooksQuery({});
+        useGetBooksQuery({});
 
         const { bookId } = useParams();
         const book = useSelector((state: RootState) =>  state.books.books.find((book) => book.guid === bookId));
         
-      
+        const user = useSelector((state: RootState) => state.user.user);
+
+        const currentUser = useSelector((state: RootState) => state.firebase.auth);
+
+        console.log(currentUser);
         if (!book) {
           return <div>Book not found</div>;
         }
       
         return (
+
+
+               <div>
+
+
                     <Box p={4}>
                     <Flex direction="column" align="center">
                         <Image
@@ -42,6 +53,13 @@ const Detailed = () => {
                         </Text>
                     </Flex>
                     </Box>
+                    {user && <AddReviewForm book={book}></AddReviewForm> }
+                    <Comments reviews={book.reviews}></Comments>
+
+                    
+
+               </div>
+
         );
    
 };

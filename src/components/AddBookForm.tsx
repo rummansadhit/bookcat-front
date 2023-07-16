@@ -42,6 +42,7 @@ const AddBookForm: React.FC = () => {
       author,
       genre,
       publicationDate: publicationDate?.toISOString().substring(0, 10) || '',
+      reviews: [],
    
     };
 

@@ -8,12 +8,18 @@ import { RootState } from '../store';
 
 
 
-export interface IBook {
+export interface IReview {
+    userName: string;
+    comment: string;
+  }
+
+  export interface IBook {
     guid: string;
     title: string;
     author: string;
     genre: string;
     publicationDate: string;
+    reviews: IReview[];
   }
 
 
@@ -37,6 +43,27 @@ const bookSlice = createSlice({
         state.books = [...state.books, action.payload];
       },
 
+
+      updateBook: (state, action: PayloadAction<IBook>) => {
+        const { guid } = action.payload;
+        const index = state.books.findIndex((book) => book.guid === guid);
+        if (index !== -1) {
+          state.books[index] = action.payload;
+        }},
+
+
+      addReview: (state, action: PayloadAction<{ bookId: string; review: IReview }>) => {
+        const { bookId, review } = action.payload;
+  
+        // Find the book by ID
+        const book = state.books.find((book) => book.guid === bookId);
+  
+        if (book) {
+          // Add the new review to the book's reviews array
+          book.reviews.push(review);
+        }
+      },
+
       setGenreFilter: (state, action: PayloadAction<string>) => {
         state.genreFilter = action.payload;
       },
@@ -51,7 +78,12 @@ const bookSlice = createSlice({
             state.books = action.payload;
           
         });
-      }, 
+
+      
+
+
+
+    }
 
 
 
@@ -80,6 +112,6 @@ const bookSlice = createSlice({
       return false;
     });
   };
-  export const { bookAdded, setGenreFilter, setPublicationYearFilter  } = bookSlice.actions;
+  export const { bookAdded, setGenreFilter, setPublicationYearFilter, addReview , updateBook } = bookSlice.actions;
   export default bookSlice.reducer;
 

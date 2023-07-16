@@ -41,7 +41,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ isOpen, onClose, title }) => {
     password: '',
   });
   const [profile, setProfile] = useState({
-    username: ''
+    username: '',
+    email: '',
     
   });
    
