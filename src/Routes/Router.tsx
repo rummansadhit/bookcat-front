@@ -10,6 +10,7 @@ import Home from "../pages/Home";
 import ProtectedRoute from "./ProtectedRoute";
 import AddBook from "../pages/AddBook";
 import Detailed from "../pages/Detailed";
+import EditBookPage from "../pages/EditBook";
 
 
 const router = createBrowserRouter([
@@ -33,7 +34,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/books/edit/:bookId",
-        element: <Detailed />,
+        element: <EditBookPage />,
       }
 
 
