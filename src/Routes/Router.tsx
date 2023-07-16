@@ -25,7 +25,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/add",
-        element: <AddBook />,
+        element: <ProtectedRoute> <AddBook />  </ProtectedRoute>
         
       },
       {

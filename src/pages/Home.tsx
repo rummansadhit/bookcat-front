@@ -7,16 +7,28 @@ import { User } from '@firebase/auth-types';
 import Navbar from '../components/Navbar';
 import { selectFilteredBooks, setGenreFilter, setPublicationYearFilter, bookDeleted, IBook } from '../Slice/bookSlice';
 import { useGetBooksQuery , useDeleteBookMutation} from '../Slice/bookApi';
-import { Box, Button, Grid, GridItem, Heading, VStack, Wrap, WrapItem, Image, Text, CardBody, Card, Divider, CardFooter, ButtonGroup, Select, Input} from '@chakra-ui/react';
+import { Box, Button, Grid, GridItem, Heading, VStack, Wrap, WrapItem, Image, Text, CardBody, Card, Divider, CardFooter, ButtonGroup, Select, Input, AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  useDisclosure,
+
+
+} from '@chakra-ui/react';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 import { Link } from 'react-router-dom';
-
+import { useRef } from 'react';
 const Home = () => {
+  const cancelRef = useRef<HTMLButtonElement>(null);
     const [deleteBookMutation] = useDeleteBookMutation();
     const dispatch: any = useDispatch();
     const data = useSelector(selectFilteredBooks);
     const [genreFilter, setGFilter] = useState('');
     const [publicationYearFilter, setPFilter] = useState('');
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [deleteBookId, setDeleteBookId] = useState('');
     useGetBooksQuery({});
     useEffect(() => {
         
@@ -34,14 +46,21 @@ const Home = () => {
       dispatch(setPublicationYearFilter(publicationYear));
     };
 
+    const handleDelete = (book: IBook) => {
+      setDeleteBookId(book.guid);
+      onOpen();
+    };
 
-
-
-      const handleDelete = (book : IBook) => {
-        const bookId: string = book.guid ;
+    const handleDeleteCancel = () => {
+      setDeleteBookId('');
+      onClose();
+    };
+      const handleDeleteConfirmation = () => {
+        const bookId: string = deleteBookId ;
         console.log(bookId);
         deleteBookMutation({bookId});
-        dispatch(bookDeleted(book))
+        dispatch(bookDeleted(bookId));
+        onClose();
       }
 
     return (
@@ -57,10 +76,12 @@ const Home = () => {
                 value={genreFilter}
                 onChange={handleGenreFilterChange}
               >
-                <option value="">All Genres</option>
-                {/* Add genre options based on available genres */}
+                <option value="">Select Genre</option>
                 <option value="fantasy">Fantasy</option>
                 <option value="romance">Romance</option>
+                <option value="mystery">Mystery</option>
+                <option value="science-fiction">Science Fiction</option>
+                <option value="thriller">Thriller</option>
                 {/* Add more options as needed */}
               </Select>
             </Box>
@@ -124,7 +145,34 @@ const Home = () => {
 
         
           ))}
+
+
+
+
+
         </Grid>
+
+
+        <AlertDialog isOpen={isOpen} onClose={onClose} isCentered leastDestructiveRef={cancelRef} >
+                      <AlertDialogOverlay>
+                        <AlertDialogContent>
+                          <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                            Delete Book
+                          </AlertDialogHeader>
+                          <AlertDialogBody>
+                            Are you sure you want to delete this book?
+                          </AlertDialogBody>
+                          <AlertDialogFooter>
+                            <Button variant="outline" onClick={handleDeleteCancel}>
+                              Cancel
+                            </Button>
+                            <Button colorScheme="red" ml={3} onClick={handleDeleteConfirmation}>
+                              Delete
+                            </Button>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialogOverlay>
+                    </AlertDialog>
       </Box>
 
           

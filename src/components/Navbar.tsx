@@ -4,13 +4,13 @@ import LoginForm from './Register';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { useFirebase } from 'react-redux-firebase';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate} from 'react-router-dom';
 import { useDisclosure } from '@chakra-ui/react';
 
 const Navbar = () => {
 
     const user = useSelector((state: RootState) => state.user.user);
-
+    const nagivate = useNavigate();
 
     const firebase = useFirebase();
     const handleLogout = () => {
@@ -18,6 +18,7 @@ const Navbar = () => {
       firebase.logout()
       .then(() => {
         // Logout successful, perform any necessary actions
+        nagivate('/');
       })
       .catch((error:any) => {
         // Handle any errors that occur during logout

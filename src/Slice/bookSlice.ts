@@ -54,9 +54,9 @@ const bookSlice = createSlice({
           state.books[index] = action.payload;
         }},
 
-        bookDeleted: (state, action: PayloadAction<IBook>) => {
+        bookDeleted: (state, action: PayloadAction<string>) => {
             
-            const {guid} = action.payload
+            const guid = action.payload
             state.books=state.books.filter((book) => book.guid !== guid);
           },
       
