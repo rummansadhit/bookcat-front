@@ -5,13 +5,14 @@ import { AppDispatch, RootState } from '../store';
 import { ThunkDispatch } from 'redux-thunk';
 import { User } from '@firebase/auth-types';
 import Navbar from '../components/Navbar';
-import { selectFilteredBooks, setGenreFilter, setPublicationYearFilter } from '../Slice/bookSlice';
-import { useGetBooksQuery } from '../Slice/bookApi';
+import { selectFilteredBooks, setGenreFilter, setPublicationYearFilter, bookDeleted, IBook } from '../Slice/bookSlice';
+import { useGetBooksQuery , useDeleteBookMutation} from '../Slice/bookApi';
 import { Box, Button, Grid, GridItem, Heading, VStack, Wrap, WrapItem, Image, Text, CardBody, Card, Divider, CardFooter, ButtonGroup, Select, Input} from '@chakra-ui/react';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
+    const [deleteBookMutation] = useDeleteBookMutation();
     const dispatch: any = useDispatch();
     const data = useSelector(selectFilteredBooks);
     const [genreFilter, setGFilter] = useState('');
@@ -35,6 +36,13 @@ const Home = () => {
 
 
 
+
+      const handleDelete = (book : IBook) => {
+        const bookId: string = book.guid ;
+        console.log(bookId);
+        deleteBookMutation({bookId});
+        dispatch(bookDeleted(book))
+      }
 
     return (
 
@@ -105,7 +113,7 @@ const Home = () => {
                                 <CardFooter>
                                     <ButtonGroup spacing='2'>
                                   <Link to={`/books/edit/${book.guid}`}>  <Button colorScheme="blue">Edit</Button>  </Link> 
-                                     <Button colorScheme="red">Delete</Button>
+                                     <Button colorScheme="red" onClick={() => handleDelete(book)}>Delete</Button>
                                     </ButtonGroup>
                                 </CardFooter>
 

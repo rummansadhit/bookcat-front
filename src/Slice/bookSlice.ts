@@ -7,7 +7,6 @@ import { RootState } from '../store';
 
 
 
-
 export interface IReview {
     userName: string;
     comment: string;
@@ -35,6 +34,10 @@ export interface IReview {
     publicationYearFilter: '',
   };
 
+
+ 
+
+
 const bookSlice = createSlice({
     name: 'books',
     initialState,
@@ -51,9 +54,10 @@ const bookSlice = createSlice({
           state.books[index] = action.payload;
         }},
 
-        bookDeleted: (state, action: PayloadAction<{ bookId: string}>) => {
-            const {bookId} = action.payload;
-            state.books.filter((book) => book.guid !== bookId);
+        bookDeleted: (state, action: PayloadAction<IBook>) => {
+            
+            const {guid} = action.payload
+            state.books=state.books.filter((book) => book.guid !== guid);
           },
       
 
@@ -119,6 +123,6 @@ const bookSlice = createSlice({
       return false;
     });
   };
-  export const { bookAdded, setGenreFilter, setPublicationYearFilter, addReview , updateBook } = bookSlice.actions;
+  export const { bookAdded, setGenreFilter, setPublicationYearFilter, addReview , updateBook, bookDeleted} = bookSlice.actions;
   export default bookSlice.reducer;
 
