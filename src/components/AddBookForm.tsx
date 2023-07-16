@@ -7,6 +7,16 @@ import { useAddBookMutation } from '../Slice/bookApi';
 import {IBook, bookAdded} from '../Slice/bookSlice';
 import { MutationActionCreatorResult } from '@reduxjs/toolkit/dist/query/core/buildInitiate';
 
+import { v4 as uuidv4 } from 'uuid';
+
+
+
+
+
+
+
+
+
 const AddBookForm: React.FC = () => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
@@ -22,10 +32,12 @@ const AddBookForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Perform form validation here
 
+    // Perform form validation here
+    const guid: string = uuidv4();
     // Create the book object
     const newBook: IBook = {
+      guid,
       title,
       author,
       genre,
